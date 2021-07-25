@@ -82,7 +82,7 @@
     (setq fill-column 80)
     (setq visible-bell nil)
     (setq indent-tabs-mode nil)
-    (setq mouse-autoselect-window f)
+    (setq mouse-autoselect-window nil)
     (setq mouse-drag-copy-region nil)
     (global-unset-key [mouse-2])
     (setq mouse-wheel-follow-mouse t)
