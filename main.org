@@ -15,7 +15,6 @@
 
 ** Projectile
    #+BEGIN_SRC emacs-lisp
-     ;; Packages
      (use-package projectile
        :config
        (projectile-mode)
@@ -67,7 +66,6 @@
    
 * UI
   #+BEGIN_SRC emacs-lisp
-    ;; UI / UX
     (load-theme 'wombat t)
     (set-face-attribute 'default nil :height 110)
     (menu-bar-mode -1)
@@ -84,15 +82,15 @@
     (setq fill-column 80)
     (setq visible-bell nil)
     (setq indent-tabs-mode nil)
-    (setq mouse-autoselect-window t)
+    (setq mouse-autoselect-window f)
     (setq mouse-drag-copy-region nil)
     (global-unset-key [mouse-2])
     (setq mouse-wheel-follow-mouse t)
     (setq mouse-wheel-progressive-speed nil)
     (setq mouse-wheel-scroll-amount '(2 ((shift) . 1)))
-    (setq js-indent-level 2)
-
-    ;; Disable graphical dialog boxes
+#+END_SRC
+** Disable graphical dialog boxes
+  #+BEGIN_SRC emacs-lisp
     (defadvice yes-or-no-p (around prevent-dialog activate)
       "Prevent 'yes-or-no-p' from activating a dialog."
       (let ((use-dialog-box nil))
@@ -104,8 +102,8 @@
   #+END_SRC
 
 * Other
+** Move auto-generated 'custom' settings into own file
   #+BEGIN_SRC emacs-lisp
-    ;; Move auto-generated 'custom' settings into own file
     (setq custom-file "~/.emacs.d/custom.el")
     (load custom-file)
   #+END_SRC
