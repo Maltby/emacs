@@ -72,8 +72,8 @@
     (toggle-scroll-bar -1)
     (tool-bar-mode -1)
     (show-paren-mode t)
+    (global-linum-mode 1)
     (global-hl-line-mode +1)
-    ;; (set-face-background 'hl-line "#4A4A4A")
     (setq evil-insert-state-cursor '(box "#00CE7E")
 	  evil-normal-state-cursor '(box "#F7FF57")
 	  evil-visual-state-cursor '(box "red")
@@ -88,22 +88,22 @@
     (setq mouse-wheel-follow-mouse t)
     (setq mouse-wheel-progressive-speed nil)
     (setq mouse-wheel-scroll-amount '(2 ((shift) . 1)))
-#+END_SRC
-** Disable graphical dialog boxes
-  #+BEGIN_SRC emacs-lisp
-    (defadvice yes-or-no-p (around prevent-dialog activate)
-      "Prevent 'yes-or-no-p' from activating a dialog."
-      (let ((use-dialog-box nil))
-	ad-do-it))
-    (defadvice y-or-n-p (around prevent-dialog-yorn activate)
-      "Prevent 'y-or-n-p' from activating a dialog."
-      (let ((use-dialog-box nil))
-	ad-do-it))
   #+END_SRC
+** Disable graphical dialog boxes
+   #+BEGIN_SRC emacs-lisp
+     (defadvice yes-or-no-p (around prevent-dialog activate)
+       "Prevent 'yes-or-no-p' from activating a dialog."
+       (let ((use-dialog-box nil))
+	 ad-do-it))
+     (defadvice y-or-n-p (around prevent-dialog-yorn activate)
+       "Prevent 'y-or-n-p' from activating a dialog."
+       (let ((use-dialog-box nil))
+	 ad-do-it))
+   #+END_SRC
 
 * Other
 ** Move auto-generated 'custom' settings into own file
-  #+BEGIN_SRC emacs-lisp
-    (setq custom-file "~/.emacs.d/custom.el")
-    (load custom-file)
-  #+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq custom-file "~/.emacs.d/custom.el")
+     (load custom-file)
+   #+END_SRC
