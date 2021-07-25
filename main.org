@@ -1,95 +1,111 @@
-#+BEGIN_SRC emacs-lisp
-  ;; Use-package setup
-  ;; (package-initialize)
-  ;; (setq package-enable-at-startup nil)
-  ;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+* General
+** 'use-package
+   #+BEGIN_SRC emacs-lisp
+     (eval-when-compile
+       (require 'use-package))
 
-  (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
+     (setq use-package-always-ensure t)
+   #+END_SRC
 
-  (eval-when-compile
-    (require 'use-package))
+* Project Management
+** Magit
+   #+BEGIN_SRC emacs-lisp 
+     (use-package magit)
+   #+END_SRC
 
-  (setq use-package-always-ensure t)
+** Projectile
+   #+BEGIN_SRC emacs-lisp
+     ;; Packages
+     (use-package projectile
+       :config
+       (projectile-mode)
+       (setq projectile-require-root-project nil))
+   #+END_SRC
 
-  ;; Packages
-  (use-package projectile
-    :config
-    (projectile-mode)
-    (setq projectile-require-root-project nil))
+* Search
+** Helm
+   #+BEGIN_SRC emacs-lisp
+     (use-package helm
+       :config
+       (recentf-mode 1)
+       (setq helm-mode-fuzzy-match t)
+       (setq helm-completion-in-region-fuzzy-match t)
+       (setq helm-candidate-number-limit 100)
+       (setq helm-M-x-fuzzy-match t)
+       :bind (("M-x" . helm-M-x)
+	      ("C-x C-f" . helm-find-files)))
 
-  (use-package helm
-    :config
-    (recentf-mode 1)
-    (setq helm-mode-fuzzy-match t)
-    (setq helm-completion-in-region-fuzzy-match t)
-    (setq helm-candidate-number-limit 100)
-    (setq helm-M-x-fuzzy-match t)
-    :bind (("M-x" . helm-M-x)
-	   ("C-x C-f" . helm-find-files)))
+     (use-package helm-projectile
+       :config
+       (helm-projectile-on)
+       :bind (("C-c p f" . helm-projectile-find-file)
+	      ("C-c p s" . helm-projectile-ag)))
 
-  (use-package helm-projectile
-    :config
-    (helm-projectile-on)
-    :bind (("C-c p f" . helm-projectile-find-file)
-	   ("C-c p s" . helm-projectile-ag)))
+     (use-package helm-ag)
+   #+END_SRC
 
-  (use-package exec-path-from-shell
-    :config (exec-path-from-shell-initialize))
 
-  (use-package evil
-    :config
-    (evil-mode))
+* Environment
+** Ensure environment variables match user shell
+   #+BEGIN_SRC emacs-lisp
+     (use-package exec-path-from-shell
+       :config (exec-path-from-shell-initialize))
+   #+END_SRC
 
-  (use-package helm-ag)
+* UX
+** Evil
+   #+BEGIN_SRC emacs-lisp
+     (use-package evil
+       :config
+       (evil-mode))
 
-  (use-package magit)
+     (global-set-key (kbd "C-c h")  'windmove-left)
+     (global-set-key (kbd "C-c l") 'windmove-right)
+     (global-set-key (kbd "C-c k")    'windmove-up)
+     (global-set-key (kbd "C-c j")  'windmove-down)
+   #+END_SRC
+   
+* UI
+  #+BEGIN_SRC emacs-lisp
+    ;; UI / UX
+    (load-theme 'wombat t)
+    (set-face-attribute 'default nil :height 110)
+    (menu-bar-mode -1)
+    (toggle-scroll-bar -1)
+    (tool-bar-mode -1)
+    (show-paren-mode t)
+    (global-hl-line-mode +1)
+    ;; (set-face-background 'hl-line "#4A4A4A")
+    (setq evil-insert-state-cursor '(box "#00CE7E")
+	  evil-normal-state-cursor '(box "#F7FF57")
+	  evil-visual-state-cursor '(box "red")
+	  evil-replace-state-cursor '(box "blue")
+	  )
+    (setq fill-column 80)
+    (setq visible-bell nil)
+    (setq indent-tabs-mode nil)
+    (setq mouse-autoselect-window t)
+    (setq mouse-drag-copy-region nil)
+    (global-unset-key [mouse-2])
+    (setq mouse-wheel-follow-mouse t)
+    (setq mouse-wheel-progressive-speed nil)
+    (setq mouse-wheel-scroll-amount '(2 ((shift) . 1)))
+    (setq js-indent-level 2)
 
-  (use-package tide)
+    ;; Disable graphical dialog boxes
+    (defadvice yes-or-no-p (around prevent-dialog activate)
+      "Prevent 'yes-or-no-p' from activating a dialog."
+      (let ((use-dialog-box nil))
+	ad-do-it))
+    (defadvice y-or-n-p (around prevent-dialog-yorn activate)
+      "Prevent 'y-or-n-p' from activating a dialog."
+      (let ((use-dialog-box nil))
+	ad-do-it))
+  #+END_SRC
 
-  ;; UI / UX
-  (load-theme 'wombat t)
-  (set-face-attribute 'default nil :height 110)
-  (menu-bar-mode -1)
-  (toggle-scroll-bar -1)
-  (tool-bar-mode -1)
-  (show-paren-mode t)
-  (global-hl-line-mode +1)
-  ;; (set-face-background 'hl-line "#4A4A4A")
-  (setq evil-insert-state-cursor '(box "#00CE7E")
-	evil-normal-state-cursor '(box "#F7FF57")
-	evil-visual-state-cursor '(box "red")
-	evil-replace-state-cursor '(box "blue")
-	)
-  (setq fill-column 80)
-  (setq visible-bell nil)
-  (setq indent-tabs-mode nil)
-  (setq mouse-autoselect-window t)
-  (setq mouse-drag-copy-region nil)
-  (global-unset-key [mouse-2])
-  (setq mouse-wheel-follow-mouse t)
-  (setq mouse-wheel-progressive-speed nil)
-  (setq mouse-wheel-scroll-amount '(2 ((shift) . 1)))
-  (setq js-indent-level 2)
-
-  ;; Disable graphical dialog boxes
-  (defadvice yes-or-no-p (around prevent-dialog activate)
-    "Prevent 'yes-or-no-p' from activating a dialog."
-    (let ((use-dialog-box nil))
-      ad-do-it))
-  (defadvice y-or-n-p (around prevent-dialog-yorn activate)
-    "Prevent 'y-or-n-p' from activating a dialog."
-    (let ((use-dialog-box nil))
-      ad-do-it))
-
-  ;; Motion
-  (global-set-key (kbd "C-c h")  'windmove-left)
-  (global-set-key (kbd "C-c l") 'windmove-right)
-  (global-set-key (kbd "C-c k")    'windmove-up)
-  (global-set-key (kbd "C-c j")  'windmove-down)
-
-  ;; Move auto-generated 'custom' settings into own file
-  (setq custom-file "~/.emacs.d/custom.el")
-  (load custom-file)
-#+END_SRC
+* Other
+  #+BEGIN_SRC emacs-lisp
+    ;; Move auto-generated 'custom' settings into own file
+    (setq custom-file "~/.emacs.d/custom.el")
+    (load custom-file)
+  #+END_SRC
