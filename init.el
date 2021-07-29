@@ -1,7 +1,6 @@
 ;; Use-package setup
-(setq package-archives '(
-        ("melpa" . "http://melpa.org/packages/")
-))
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
 
 ;; Manual package-initialize
 (require 'package)
