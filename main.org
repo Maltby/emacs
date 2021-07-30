@@ -52,17 +52,16 @@
    #+END_SRC
 
 * UX
-** Navigation
-   #+BEGIN_SRC emacs-lisp
-     (use-package undo-tree)
-     (global-undo-tree-mode)
-     (evil-set-undo-system 'undo-tree)
-   #+END_SRC
 ** Evil
    #+BEGIN_SRC emacs-lisp
      (use-package evil
+       :init
+	(setq evil-undo-system 'undo-tree)
        :config
-       (evil-mode))
+	(evil-mode))
+
+     (use-package undo-tree)
+     (global-undo-tree-mode)
 
      (global-set-key (kbd "C-c h")  'windmove-left)
      (global-set-key (kbd "C-c l") 'windmove-right)
